@@ -1,0 +1,27 @@
+schema-version: 1.0
+
+type: builder
+
+in:
+  version: "3.0"
+
+dependencies:
+  - git
+  - autoconf
+  - automake
+  - m4
+  - libtool
+
+provision:
+  - url:
+      from: https://github.com/skvadrik/re2c/archive/refs/tags/{% version %}.tar.gz
+      todir: "{% xbeeSrc %}"
+
+build:
+  - shell:
+      cmds:
+        - ./autogen.sh
+        - ./configure --prefix=/usr
+        - make
+        - make install DESTDIR="{% xbeeOut %}"
+      directory: "{% xbeeSrc %}/re2c-{% version %}"
